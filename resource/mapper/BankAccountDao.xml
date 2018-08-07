@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyq.demo.dao.BankAccountDao">
+	<insert id="addBankAccount" parameterType="BankAccount" >
+		insert into bankAccount values (#{bid},#{bname},#{money})
+	</insert>
+	
+	<delete id="deleteBankAccount" parameterType="BankAccount">
+		delete from bankAccount where bid = #{bid}
+	</delete>
+	
+	<update id="modifyBankAccount" parameterType="BankAccount">
+		update bankAccount set money = #{money}
+		where bid = #{bid}
+	</update>
+	
+	<select id="findBankAccountById" parameterType="int" resultType="BankAccount"> 
+		select bid,bname,money from bankAccount where bid = #{bid}
+	</select>
+	
+	<select id="findAllBankAccount" resultType="BankAccount">
+		select * from bankAccount
+	</select>
+</mapper>

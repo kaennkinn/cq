@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<bean id="aopAspect" class="com.xyq.demo.aspect.LogAspect2">
+	</bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.xyq.demo.service.*.*(..))" id="myAspect"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="myAspect"/>
+		<aop:aspect id="myAspect" ref="aopAspect">
+			<aop:before method="printBefore" pointcut="execution(* com.xyq.demo.service.*.*(..))"/>
+			<aop:after method="printAfter" pointcut="execution(* com.xyq.demo.service.*.*(..))"/>
+			<aop:after-returning method="printReturn" pointcut-ref="myAspect" returning="result"/>
+			<!-- <aop:around method="printAround" pointcut-ref="myAspect"/> -->
+		</aop:aspect>
+	</aop:config>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManger">
+		<tx:attributes>
+			<tx:method name="transferMoney" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+</beans>

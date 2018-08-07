@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyq.demo.dao.StockAccountDao">
+	<insert id="addStockAccount" parameterType="StockAccount">
+		insert into stockAccount values (#{sid},#{sname},#{count});
+	</insert>
+	
+	<delete id="delStockAccount" parameterType="StockAccount">
+		delete from stockAccount where sid = #{sid}
+	</delete>
+	
+	<update id="modifyStockAccount" parameterType="StockAccount">
+		update stockAccount 
+			set count = #{count}
+		where sid = #{sid}
+	</update>
+	
+	<select id="findStockAccountById" parameterType="int" resultType="StockAccount"> 
+		select * from stockAccount where sid = #{sid}
+	</select>
+	
+	<select id="findAllStockAccount" resultType="StockAccount">
+		select * from stockAccount
+	</select>
+</mapper>
